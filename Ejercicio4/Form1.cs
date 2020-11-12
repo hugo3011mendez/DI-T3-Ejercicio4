@@ -35,7 +35,8 @@ namespace Ejercicio4
         {
             if (txtSeleccionarDir.Text.StartsWith("%") && txtSeleccionarDir.Text.EndsWith("%"))
             {
-
+                // Creo la variable de entorno, con un nombre y un valor idénticos al texto introducido en el TextBox sin los '%'
+                Environment.SetEnvironmentVariable(txtSeleccionarDir.Text.Substring(1, txtSeleccionarDir.Text.Length-2), txtSeleccionarDir.Text.Substring(1, txtSeleccionarDir.Text.Length - 2));
             }
             else
             {
