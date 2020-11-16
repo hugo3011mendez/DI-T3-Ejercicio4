@@ -37,11 +37,17 @@ namespace Ejercicio4
             {
                 if (txtSeleccionarDir.Text.StartsWith("%") && txtSeleccionarDir.Text.EndsWith("%"))
                 {
-                    // Creo la variable de entorno, con un nombre y un valor idénticos al texto introducido en el TextBox sin los '%'
-                    //Environment.SetEnvironmentVariable(txtSeleccionarDir.Text.Substring(1, txtSeleccionarDir.Text.Length-2), txtSeleccionarDir.Text.Substring(1, txtSeleccionarDir.Text.Length - 2));
-
-                    // Indico dónde se encuentra la variable de entorno indicada
-                    txtInfo.Text="La ruta de la variable de entorno especificada es : " + Environment.GetEnvironmentVariable(txtSeleccionarDir.Text.Substring(1, txtSeleccionarDir.Text.Length - 2));
+                    try
+                    {
+                        // Guardo la ruta de la variable de entorno en una variable
+                        String rutaDirectorio = Environment.GetEnvironmentVariable(txtSeleccionarDir.Text.Substring(1, txtSeleccionarDir.Text.Length - 2));
+                        Directory.SetCurrentDirectory(rutaDirectorio);
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        txtSeleccionarDir.Text = "";
+                        MessageBox.Show("No se ha podido encontrar el directorio que has indicado. Asegúrate de que el directorio exista o de que tengas permisos para acceder a él");
+                    }
                 }
                 else
                 {
@@ -51,27 +57,27 @@ namespace Ejercicio4
                         String rutaDirectorio = txtSeleccionarDir.Text;
                         Directory.SetCurrentDirectory(rutaDirectorio);
 
-                        DirectoryInfo raiz = new DirectoryInfo(Directory.GetCurrentDirectory());
-
-                        // Reinicio el TextBox
-                        txtInfo.Text = "Subdirectorios y archivos que contiene el directorio " + raiz.Name + ":" + Environment.NewLine;
-
-                        // Escribo los subdirectorios
-                        foreach (DirectoryInfo dir in raiz.GetDirectories())
-                        {
-                            txtInfo.AppendText(dir.Name + " \\" + Environment.NewLine);
-                        }
-
-                        foreach (FileInfo archivo in raiz.GetFiles())
-                        {
-                            txtInfo.AppendText(archivo.Name + Environment.NewLine);
-                        }
                     }
                     catch (DirectoryNotFoundException)
                     {
                         txtSeleccionarDir.Text = "";
                         MessageBox.Show("No se ha podido encontrar el directorio que has indicado. Asegúrate de que el directorio exista o de que tengas permisos para acceder a él");
                     }
+                }
+                DirectoryInfo raiz = new DirectoryInfo(Directory.GetCurrentDirectory());
+
+                // Reinicio el TextBox
+                txtInfo.Text = "Subdirectorios y archivos que contiene el directorio " + raiz.Name + ":" + Environment.NewLine;
+
+                // Escribo los subdirectorios
+                foreach (DirectoryInfo dir in raiz.GetDirectories())
+                {
+                    txtInfo.AppendText(dir.Name + " \\" + Environment.NewLine);
+                }
+
+                foreach (FileInfo archivo in raiz.GetFiles())
+                {
+                    txtInfo.AppendText(archivo.Name + Environment.NewLine);
                 }
             }
             catch (ArgumentException)
