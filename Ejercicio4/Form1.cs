@@ -57,27 +57,27 @@ namespace Ejercicio4
                         String rutaDirectorio = txtSeleccionarDir.Text;
                         Directory.SetCurrentDirectory(rutaDirectorio);
 
+                        DirectoryInfo raiz = new DirectoryInfo(Directory.GetCurrentDirectory());
+
+                        // Reinicio el TextBox
+                        txtInfo.Text = "Subdirectorios y archivos que contiene el directorio " + raiz.Name + ":" + Environment.NewLine;
+
+                        // Escribo los subdirectorios
+                        foreach (DirectoryInfo dir in raiz.GetDirectories())
+                        {
+                            txtInfo.AppendText(dir.Name + " \\" + Environment.NewLine);
+                        }
+
+                        foreach (FileInfo archivo in raiz.GetFiles())
+                        {
+                            txtInfo.AppendText(archivo.Name + Environment.NewLine);
+                        }
                     }
                     catch (DirectoryNotFoundException)
                     {
                         txtSeleccionarDir.Text = "";
                         MessageBox.Show("No se ha podido encontrar el directorio que has indicado. Asegúrate de que el directorio exista o de que tengas permisos para acceder a él");
                     }
-                }
-                DirectoryInfo raiz = new DirectoryInfo(Directory.GetCurrentDirectory());
-
-                // Reinicio el TextBox
-                txtInfo.Text = "Subdirectorios y archivos que contiene el directorio " + raiz.Name + ":" + Environment.NewLine;
-
-                // Escribo los subdirectorios
-                foreach (DirectoryInfo dir in raiz.GetDirectories())
-                {
-                    txtInfo.AppendText(dir.Name + " \\" + Environment.NewLine);
-                }
-
-                foreach (FileInfo archivo in raiz.GetFiles())
-                {
-                    txtInfo.AppendText(archivo.Name + Environment.NewLine);
                 }
             }
             catch (ArgumentException)
