@@ -78,6 +78,11 @@ namespace Ejercicio4
                         txtSeleccionarDir.Text = "";
                         MessageBox.Show("No se ha podido encontrar el directorio que has indicado. Asegúrate de que el directorio exista o de que tengas permisos para acceder a él");
                     }
+                    catch (IOException)
+                    {
+                        txtSeleccionarDir.Text = "";
+                        MessageBox.Show("Has escrito caracteres no válidos, no se ha podido seleccionar ningún directorio");
+                    }
                 }
             }
             catch (ArgumentException)
