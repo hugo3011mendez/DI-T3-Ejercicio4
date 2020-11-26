@@ -56,22 +56,6 @@ namespace Ejercicio4
                         // Guardo la ruta en una variable y establezco el directorio actual de trabajo
                         String rutaDirectorio = txtSeleccionarDir.Text;
                         Directory.SetCurrentDirectory(rutaDirectorio);
-
-                        DirectoryInfo raiz = new DirectoryInfo(Directory.GetCurrentDirectory());
-
-                        // Reinicio el TextBox
-                        txtInfo.Text = "Subdirectorios y archivos que contiene el directorio " + raiz.Name + ":" + Environment.NewLine;
-
-                        // Escribo los subdirectorios
-                        foreach (DirectoryInfo dir in raiz.GetDirectories())
-                        {
-                            txtInfo.AppendText(dir.Name + " \\" + Environment.NewLine);
-                        }
-
-                        foreach (FileInfo archivo in raiz.GetFiles())
-                        {
-                            txtInfo.AppendText(archivo.Name + Environment.NewLine);
-                        }
                     }
                     catch (DirectoryNotFoundException)
                     {
@@ -84,6 +68,25 @@ namespace Ejercicio4
                         MessageBox.Show("Has escrito caracteres no válidos, no se ha podido seleccionar ningún directorio");
                     }
                 }
+
+
+                DirectoryInfo raiz = new DirectoryInfo(Directory.GetCurrentDirectory());
+
+                // Reinicio el TextBox
+                txtInfo.Text = "Subdirectorios y archivos que contiene el directorio " + raiz.Name + ":" + Environment.NewLine;
+
+                // Escribo los subdirectorios
+                foreach (DirectoryInfo dir in raiz.GetDirectories())
+                {
+                    txtInfo.AppendText(dir.Name + " \\" + Environment.NewLine);
+                }
+
+                foreach (FileInfo archivo in raiz.GetFiles())
+                {
+                    txtInfo.AppendText(archivo.Name + Environment.NewLine);
+                }
+
+
             }
             catch (ArgumentException)
             {
